@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Addin Type="Standard">
+  <ClassId>{D4E8B219-63C7-4A92-9B15-8E24F610C3A7}</ClassId>
+  <ClientId>{D4E8B219-63C7-4A92-9B15-8E24F610C3A7}</ClientId>
+  <DisplayName>NJS Tools</DisplayName>
+  <Description>Administrative and engineering productivity tools for Autodesk Inventor.</Description>
+  <LoadOnStartUp>1</LoadOnStartUp>
+  <Hidden>0</Hidden>
+  <UserUnloadable>1</UserUnloadable>
+  <LoadAutomatically>1</LoadAutomatically>
+  <Assembly>__ADDIN_ASSEMBLY_PATH__</Assembly>
+</Addin>
