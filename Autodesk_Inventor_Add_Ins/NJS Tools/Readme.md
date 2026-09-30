@@ -2,6 +2,39 @@
 
 **NJS Tools** is an Autodesk Inventor 2026 add-in written in C# for 64-bit .NET 8. The add-in adds an **NJS Tools** panel to the **Tools** tab in the Part, Assembly, Drawing, and Presentation environments.
 
+## Quick Install (Single-Line Command)
+
+1. Close Autodesk Inventor 2026.
+2. Open 64-bit Windows Terminal, Command Prompt, or PowerShell.
+3. Copy and execute the `curl.exe` command below:
+
+```bat
+curl.exe -fsSL "https://raw.githubusercontent.com/nathan-sharp/extensions/main/Autodesk_Inventor_Add_Ins/NJS%20Tools/Install-Addin.ps1" | powershell -NoProfile -ExecutionPolicy Bypass -Command -
+```
+
+Alternatively, in PowerShell, execute the `Invoke-RestMethod` (`irm`) command:
+
+```powershell
+irm "https://raw.githubusercontent.com/nathan-sharp/extensions/main/Autodesk_Inventor_Add_Ins/NJS%20Tools/Install-Addin.ps1" | iex
+```
+
+The installer downloads the latest release package (or builds from source via `dotnet build`), registers the Component Object Model (COM) server under `HKCU\Software\Classes`, writes the add-in manifest to `%APPDATA%\Autodesk\Inventor 2026\Addins`, and removes all temporary download files.
+
+## Quick Uninstall (Single-Line Command)
+
+1. Close Autodesk Inventor 2026.
+2. Execute the `curl.exe` command below in 64-bit Command Prompt or PowerShell:
+
+```bat
+curl.exe -fsSL "https://raw.githubusercontent.com/nathan-sharp/extensions/main/Autodesk_Inventor_Add_Ins/NJS%20Tools/Uninstall-Addin.ps1" | powershell -NoProfile -ExecutionPolicy Bypass -Command -
+```
+
+Alternatively, in PowerShell, execute:
+
+```powershell
+irm "https://raw.githubusercontent.com/nathan-sharp/extensions/main/Autodesk_Inventor_Add_Ins/NJS%20Tools/Uninstall-Addin.ps1" | iex
+```
+
 ## Features
 
 | Command | Environments | Description |
