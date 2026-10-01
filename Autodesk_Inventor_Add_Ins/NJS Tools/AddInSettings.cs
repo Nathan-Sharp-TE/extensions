@@ -216,6 +216,33 @@ internal sealed class AddInSettingsDialog : System.Windows.Forms.Form
         digitalImagesGroup.Controls.Add(digitalImagesFields);
         layout.Controls.Add(digitalImagesGroup, 0, 1);
 
+        var footer = new System.Windows.Forms.TableLayoutPanel
+        {
+            Dock = System.Windows.Forms.DockStyle.Fill,
+            ColumnCount = 2,
+            RowCount = 1,
+            Padding = new System.Windows.Forms.Padding(0, 8, 0, 0)
+        };
+        footer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100));
+        footer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160));
+
+        var websiteLink = new System.Windows.Forms.LinkLabel
+        {
+            Text = "njs.dev",
+            AutoSize = true,
+            Anchor = System.Windows.Forms.AnchorStyles.Left,
+            Margin = new System.Windows.Forms.Padding(3, 0, 0, 0),
+            TabStop = true
+        };
+        websiteLink.LinkClicked += (_, _) =>
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "https://njs.dev",
+                UseShellExecute = true
+            });
+        };
+
         var buttons = new System.Windows.Forms.FlowLayoutPanel
         {
             Dock = System.Windows.Forms.DockStyle.Fill,
@@ -233,7 +260,9 @@ internal sealed class AddInSettingsDialog : System.Windows.Forms.Form
         saveButton.Click += (_, _) => SaveSettings();
         buttons.Controls.Add(saveButton);
         buttons.Controls.Add(cancelButton);
-        layout.Controls.Add(buttons, 0, 2);
+        footer.Controls.Add(websiteLink, 0, 0);
+        footer.Controls.Add(buttons, 1, 0);
+        layout.Controls.Add(footer, 0, 2);
 
         Controls.Add(layout);
         AcceptButton = saveButton;

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NJS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2ad99bd4a4d57f9d55189d338c73a4cdf0650693")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2c4a225666fe6fdb8039f02b8c11fa22ebe25791")]
 [assembly: System.Reflection.AssemblyProductAttribute("NJS Tools for Autodesk Inventor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NJS.InventorAddIn")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
