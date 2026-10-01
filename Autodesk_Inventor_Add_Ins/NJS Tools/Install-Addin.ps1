@@ -1,7 +1,12 @@
 $ErrorActionPreference = 'Stop'
 
 if (-not [Environment]::Is64BitProcess) {
-    throw 'Run this script from 64-bit PowerShell.'
+    throw "This installer must be run from 64-bit PowerShell. The current process is 32-bit, so Autodesk Inventor 2026 and the x64 .NET build are not supported."
+}
+
+$inventorBinPath = 'C:\Program Files\Autodesk\Inventor 2026\Bin'
+if (-not (Test-Path (Join-Path $inventorBinPath 'Autodesk.Inventor.Interop.dll'))) {
+    throw "Inventor 2026 was not detected at '$inventorBinPath'. Install Autodesk Inventor 2026 before running this installer, or update the project build to the correct Inventor bin path."
 }
 
 $tempDir = $null
@@ -19,7 +24,7 @@ try {
         
         $projectDir = Join-Path $tempDir 'extensions-main\Autodesk_Inventor_Add_Ins\NJS Tools'
         if (-not (Test-Path $projectDir)) {
-            throw "Project directory not found in downloaded archive: $projectDir"
+            throw "The downloaded GitHub archive did not contain the expected project path: '$projectDir'. The repository layout may have changed; please build from source manually or verify the GitHub URL and folder names."
         }
         
         Write-Host 'Building project...'
@@ -37,7 +42,7 @@ try {
         $stderr = $p.StandardError.ReadToEnd()
         $p.WaitForExit()
         if ($p.ExitCode -ne 0) {
-            throw "Build failed with exit code $($p.ExitCode). Output: $stdout $stderr"
+            throw "Build failed with exit code $($p.ExitCode). This usually means the .NET SDK is missing, the Inventor interop files are unavailable, or the project source is incomplete. Build output: $stdout $stderr"
         }
         
         $buildDirectory = Join-Path $projectDir 'bin\Release\net8.0-windows'
@@ -52,7 +57,17 @@ try {
 
     foreach ($path in @($assemblyPath, $comHostPath, $templatePath)) {
         if (-not (Test-Path $path)) {
-            throw "Required file not found: $path. Build the project in Release configuration first."
+            $missingItem = Split-Path -Leaf $path
+            if ($path -eq $assemblyPath) {
+                throw "The compiled add-in assembly was not found: '$path'. Build the project in Release configuration first, and ensure the Inventor 2026 interop references are available."
+            }
+            if ($path -eq $comHostPath) {
+                throw "The COM host DLL was not found: '$path'. The add-in build may have failed or the `EnableComHosting` output files were not generated. Check the Release build output directory."
+            }
+            if ($path -eq $templatePath) {
+                throw "The add-in manifest template was not found: '$path'. The repository may not have been downloaded or extracted correctly. Check the project folder contents and confirm the template file exists."
+            }
+            throw "Required file not found: '$path'. Build the project in Release configuration first."
         }
     }
 
