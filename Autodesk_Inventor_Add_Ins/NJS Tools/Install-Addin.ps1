@@ -11,7 +11,13 @@ if (-not (Test-Path (Join-Path $inventorBinPath 'Autodesk.Inventor.Interop.dll')
 
 $tempDir = $null
 try {
-    if ([string]::IsNullOrEmpty($PSScriptRoot)) {
+    $localProjectFile = if ([string]::IsNullOrWhiteSpace($PSScriptRoot)) {
+        $null
+    } else {
+        Join-Path $PSScriptRoot 'NJS.InventorAddIn.csproj'
+    }
+
+    if (-not $localProjectFile -or -not (Test-Path $localProjectFile)) {
         $tempDir = Join-Path $env:TEMP ([Guid]::NewGuid().ToString())
         New-Item -ItemType Directory -Path $tempDir -Force | Out-Null
         
