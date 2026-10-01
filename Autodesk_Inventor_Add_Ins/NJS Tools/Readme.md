@@ -45,6 +45,28 @@ irm "https://raw.githubusercontent.com/nathan-sharp/extensions/main/Autodesk_Inv
 | **Digital Image** | Part, Assembly | Sets the camera to Top orientation, optionally applies a configured material appearance inside a rollback transaction, and exports a transparent-background Portable Network Graphics (PNG) image. |
 | **Add-On Settings** | Part, Assembly, Drawing, Presentation | Configures the Excel BoM template path, BoM draft output folder, digital image output folder, and optional digital image appearance override. |
 
+## Excel BoM Template Requirements
+
+The add-in expects the selected Excel workbook to be a copy of a specific template layout. When the **Generate BoM** command runs, it opens the workbook, looks for a worksheet named `BoM Template`, and then looks for a table named `tblBOM` on that sheet.
+
+The template must be structured as follows:
+
+- Worksheet name: `BoM Template`
+- Excel table name: `tblBOM`
+- The BOM table starts at row 10, and the add-in resizes it dynamically to fit the assembly data
+- The generated export fills these values in the workbook:
+  - `C2` = assembly number
+  - `C3` = assembly description (Inventor Design Tracking -> Description, or document display name if empty)
+  - `C4` = assembly comments from Inventor's Summary Information
+  - `C5` = BoM revision
+  - Each `tblBOM` row writes:
+    - Column A = item number
+    - Column C = part number
+    - Column E = quantity
+    - Column F is cleared for each row after the write
+
+In other words, the template should look like a standard Excel BoM form with a named `BoM Template` sheet and a `tblBOM` Excel table whose first data rows begin at row 10. The add-in does not inspect arbitrary columns or field names in the workbook; it is specifically looking for this worksheet name, table name, and cell layout.
+
 ## Prerequisites
 
 - 64-bit Windows 10 or Windows 11.
